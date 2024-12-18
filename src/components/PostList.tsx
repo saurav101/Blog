@@ -7,9 +7,16 @@ export default async function PostList() {
   await new Promise((resolve, reject) => {
     setTimeout(() => resolve("success"), 1000);
   });
-  await connectMongo();
-  const posts = await Post.find();
-  console.log(posts);
+  // await connectMongo();
+  // const posts = await Post.find();
+  // console.log(posts);
+
+  const res = await fetch("http:localhost:3000/api/blog", {
+    next: {
+      revalidate: 3600,
+    },
+  });
+  const posts = await res.json();
 
   const deletePost = async (formData) => {
     "use server";
